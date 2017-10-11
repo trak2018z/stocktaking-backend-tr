@@ -1,7 +1,6 @@
 package com.brotherhood.stocktaking.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,31 +14,18 @@ import java.util.List;
 @Entity
 @EqualsAndHashCode
 @Accessors(chain = true)
-@Table(name = "User")
-public class UserEntity {
-    @Id
+@Table(name = "Localization")
+public class LocalizationEntity {
+
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Integer id;
 
     @Column
-    private String nick;
+    private String room;
 
-    @Column
-    private String name;
-
-    @Column
-    private String surname;
-
-    @Column
-    private String email;
-
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "groupId")
-    private UserGroupEntity userGroupEntity;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "localization", cascade = CascadeType.ALL)
     @JsonBackReference
     private List<ItemEntity> itemEntities;
 }

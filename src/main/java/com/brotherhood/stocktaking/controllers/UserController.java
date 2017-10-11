@@ -1,5 +1,6 @@
 package com.brotherhood.stocktaking.controllers;
 
+import com.brotherhood.stocktaking.models.entities.UserEntity;
 import com.brotherhood.stocktaking.services.UserService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET,
             value = "/users",
             produces = "application/json")
-    public List getAllUsers() {
+    public List<UserEntity> getAllUsers() {
         return userService.get();
     }
 }
