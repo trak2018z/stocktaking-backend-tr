@@ -1,11 +1,14 @@
 package com.brotherhood.stocktaking.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.List;
@@ -35,7 +38,6 @@ public class UserEntity {
     private String email;
 
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "groupId")
     private UserGroupEntity userGroupEntity;
 

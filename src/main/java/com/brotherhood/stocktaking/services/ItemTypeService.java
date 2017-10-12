@@ -18,4 +18,12 @@ public class ItemTypeService {
     public ItemTypeEntity get(Integer itemTypeId) {
         return itemTypeRepository.get(itemTypeId);
     }
+
+    public boolean add(String type) {
+        return itemTypeRepository.add(type);
+    }
+
+    public boolean delete(String type) {
+        return itemTypeRepository.delete(type);
+    }
 }

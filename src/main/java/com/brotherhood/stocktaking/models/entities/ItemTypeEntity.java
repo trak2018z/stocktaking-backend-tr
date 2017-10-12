@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name = "ItemType")
 public class ItemTypeEntity {
     @Column
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Integer id;
 
