@@ -36,4 +36,15 @@ public class ItemRepositoryImpl extends AbstractRepository implements ItemReposi
     public void delete(ItemEntity itemEntity) {
         entityManager.remove(itemEntity);
     }
+
+    @Override
+    public boolean update(ItemEntity item) {
+        try {
+            entityManager.merge(item);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }

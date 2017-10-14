@@ -23,7 +23,7 @@ public class LocalizationEntity {
     private Integer id;
 
     @Column
-    private String room;
+    private String name;
 
     @OneToMany(mappedBy = "localization", cascade = CascadeType.ALL)
     @JsonBackReference

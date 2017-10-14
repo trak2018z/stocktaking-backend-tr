@@ -2,6 +2,7 @@ package com.brotherhood.stocktaking.controllers;
 
 import com.brotherhood.stocktaking.models.entities.ItemEntity;
 import com.brotherhood.stocktaking.models.requests.ItemCreateRequest;
+import com.brotherhood.stocktaking.models.requests.ItemUpdateRequest;
 import com.brotherhood.stocktaking.services.ItemService;
 import com.brotherhood.stocktaking.services.ItemTypeService;
 import com.brotherhood.stocktaking.services.LocalizationService;
@@ -50,9 +51,15 @@ public class ItemController {
         itemService.add(itemEntity);
     }
 
+
+    @RequestMapping(path = "/", method = RequestMethod.PATCH)
+    boolean updateItem(@RequestBody ItemUpdateRequest updateRequest) {
+        return itemService.update(updateRequest);
+    }
+
     @RequestMapping(path = "/", method = RequestMethod.DELETE)
-    void deleteItem(@RequestParam Integer itemId) {
-        itemService.delete(itemId);
+    boolean deleteItem(@RequestParam Integer itemId) {
+        return itemService.delete(itemId);
     }
 
 }

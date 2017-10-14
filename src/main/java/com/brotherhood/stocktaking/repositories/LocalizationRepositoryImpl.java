@@ -2,9 +2,9 @@ package com.brotherhood.stocktaking.repositories;
 
 import com.brotherhood.stocktaking.models.entities.LocalizationEntity;
 import com.brotherhood.stocktaking.repositories.interfaces.LocalizationRepository;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 @Repository
@@ -15,21 +15,20 @@ public class LocalizationRepositoryImpl extends AbstractRepository implements Lo
     }
 
     @Override
-    public LocalizationEntity get(String room) {
-        List list = entityManager.createQuery("SELECT localization from LocalizationEntity localization " +
-                "where room=:roomName")
-                .setParameter("roomName", room).getResultList();
-        if (list.isEmpty()) {
+    public LocalizationEntity get(String name) {
+        try {
+            return (LocalizationEntity) entityManager.createQuery("SELECT localization from LocalizationEntity localization " +
+                    "where name=:name")
+                    .setParameter("name", name).getSingleResult();
+        } catch (NoResultException e) {
             return null;
-        } else {
-            return ((LocalizationEntity) list.get(0));
         }
     }
 
     @Override
-    public boolean add(String roomName) {
-        if (get(roomName) == null) {
-            entityManager.persist(new LocalizationEntity().setRoom(roomName));
+    public boolean add(String name) {
+        if (get(name) == null) {
+            entityManager.persist(new LocalizationEntity().setName(name));
             return true;
         } else {
             return false;
@@ -37,8 +36,8 @@ public class LocalizationRepositoryImpl extends AbstractRepository implements Lo
     }
 
     @Override
-    public boolean delete(String roomName) {
-        LocalizationEntity localizationEntity = get(roomName);
+    public boolean delete(String name) {
+        LocalizationEntity localizationEntity = get(name);
         if (localizationEntity == null) {
             return false;
         } else {

@@ -14,6 +14,18 @@ public class ItemTypeRepositoryImpl extends AbstractRepository implements ItemTy
     }
 
     @Override
+    public ItemTypeEntity get(String type) {
+        try {
+            return (ItemTypeEntity) entityManager.createQuery("select item from ItemTypeEntity item " +
+                    "where item.type=:typeValue")
+                    .setParameter("typeValue", type)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
     public boolean add(String type) {
         try {
             entityManager.createQuery("select item from ItemTypeEntity item " +
