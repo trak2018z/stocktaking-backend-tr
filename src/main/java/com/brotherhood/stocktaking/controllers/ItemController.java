@@ -31,12 +31,12 @@ public class ItemController {
         this.userService = userService;
     }
 
-    @RequestMapping(path = "/", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     List<ItemEntity> getItems(@RequestParam Integer userId) {
         return itemService.get(userId);
     }
 
-    @RequestMapping(path = "/", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     void addItem(@RequestBody ItemCreateRequest item) {
         ItemEntity itemEntity = new ItemEntity()
                 .setCodeType(item.getCodeType())
@@ -52,12 +52,12 @@ public class ItemController {
     }
 
 
-    @RequestMapping(path = "/", method = RequestMethod.PATCH)
+    @RequestMapping(method = RequestMethod.PATCH)
     boolean updateItem(@RequestBody ItemUpdateRequest updateRequest) {
         return itemService.update(updateRequest);
     }
 
-    @RequestMapping(path = "/", method = RequestMethod.DELETE)
+    @RequestMapping(method = RequestMethod.DELETE)
     boolean deleteItem(@RequestParam Integer itemId) {
         return itemService.delete(itemId);
     }

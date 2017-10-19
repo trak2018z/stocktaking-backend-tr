@@ -19,7 +19,7 @@ public class ItemRepositoryImpl extends AbstractRepository implements ItemReposi
     @Override
     public List<ItemEntity> get(Integer userId) {
         UserEntity userEntity = entityManager.find(UserEntity.class, userId);
-        return new ArrayList<>(userEntity.getItemEntities());
+        return new ArrayList<>(userEntity.getItems());
     }
 
     @Override
