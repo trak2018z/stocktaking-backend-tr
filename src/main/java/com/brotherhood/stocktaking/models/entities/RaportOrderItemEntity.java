@@ -23,4 +23,9 @@ public class RaportOrderItemEntity {
 
     @Column
     private Integer raportOrderId;
+
+    public RaportOrderItemEntity(Integer raportOrderId, Integer itemId) {
+        this.itemId = itemId;
+        this.raportOrderId = raportOrderId;
+    }
 }

@@ -2,13 +2,12 @@ package com.brotherhood.stocktaking.controllers;
 
 import com.brotherhood.stocktaking.models.entities.RaportEntity;
 import com.brotherhood.stocktaking.models.entities.RaportOrderEntity;
+import com.brotherhood.stocktaking.models.requests.CreateRaportOrderRequest;
+import com.brotherhood.stocktaking.models.requests.UpdateRaportRequest;
 import com.brotherhood.stocktaking.services.RaportService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,13 +23,13 @@ public class RaportController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "order")
-    public void createOrder() {
-        raportService.addRaportOrder();
+    public void createRaportOrder(@RequestBody CreateRaportOrderRequest createRaportOrderRequest) {
+        raportService.addRaportOrder(createRaportOrderRequest);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public void createRaport() {
-        raportService.addRaport();
+    @RequestMapping(method = RequestMethod.PATCH, path = "order")
+    public void updateRaport(@RequestBody UpdateRaportRequest updateRaportRequest) {
+        raportService.updateRaport(updateRaportRequest);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "order")

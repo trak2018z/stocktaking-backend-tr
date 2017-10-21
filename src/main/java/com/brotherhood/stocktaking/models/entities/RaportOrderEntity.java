@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,8 +18,9 @@ import java.sql.Date;
 @Table(name = "RaportOrder")
 public class RaportOrderEntity {
     @Id
-    @Column(name = "raportOrderId")
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Integer raportOrderId;
 
     @Column
     private Integer countMin;
@@ -52,4 +54,23 @@ public class RaportOrderEntity {
     @JsonBackReference
     private RaportEntity raportEntity;
 
+    @ManyToMany
+    @JsonManagedReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    @JoinTable(
+            name="RaportOrderItem",
+            joinColumns=@JoinColumn(name="raportOrderId", referencedColumnName="raportOrderId"),
+            inverseJoinColumns=@JoinColumn(name="itemId", referencedColumnName="id"))
+    private List<ItemEntity> items;
+
+    @ManyToMany
+    @JsonManagedReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    @JoinTable(
+            name="RaportOrderLocalization",
+            joinColumns=@JoinColumn(name="raportOrderId", referencedColumnName="raportOrderId"),
+            inverseJoinColumns=@JoinColumn(name="localizationId", referencedColumnName="id"))
+    private List<LocalizationEntity> localizations;
 }

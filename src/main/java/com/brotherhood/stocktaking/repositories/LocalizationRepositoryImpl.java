@@ -5,6 +5,7 @@ import com.brotherhood.stocktaking.repositories.interfaces.LocalizationRepositor
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -23,6 +24,15 @@ public class LocalizationRepositoryImpl extends AbstractRepository implements Lo
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    public List<LocalizationEntity> get(List<Integer> ids) {
+        List<LocalizationEntity> result = new ArrayList<>();
+        for (Integer id : ids) {
+            result.add(get(id));
+        }
+        return result;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.brotherhood.stocktaking.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -42,6 +43,8 @@ public class ItemEntity {
 
     @JsonManagedReference
     @ManyToOne
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     @JoinColumn(name = "userId")
     private UserEntity user;
 
@@ -54,4 +57,10 @@ public class ItemEntity {
     @ManyToOne
     @JoinColumn(name = "idType")
     private ItemTypeEntity itemType;
+
+    @JsonBackReference
+    @ManyToMany(mappedBy="items")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private List<RaportOrderEntity> raportOrderEntities;
 }

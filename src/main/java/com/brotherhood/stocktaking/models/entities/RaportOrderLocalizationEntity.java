@@ -22,4 +22,9 @@ public class RaportOrderLocalizationEntity {
     @Column
     @Id
     private Integer localizationId;
+
+    public RaportOrderLocalizationEntity(Integer raportOrderId, Integer localizationId) {
+        this.raportOrderId = raportOrderId;
+        this.localizationId = localizationId;
+    }
 }

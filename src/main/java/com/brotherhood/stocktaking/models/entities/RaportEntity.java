@@ -1,6 +1,7 @@
 package com.brotherhood.stocktaking.models.entities;
 
 import com.fasterxml.jackson.annotation.*;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +25,7 @@ public class RaportEntity {
     @Column
     private String url;
 
-    @Column
+    @Column(name = "status", length = 120)
     @Enumerated(EnumType.STRING)
     private RaportStatus status;
 
@@ -35,6 +36,7 @@ public class RaportEntity {
     @JsonIdentityReference(alwaysAsId = true)
     private UserEntity user;
 
+    @Setter(AccessLevel.NONE)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "raportId")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")

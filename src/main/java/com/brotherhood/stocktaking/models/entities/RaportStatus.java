@@ -4,5 +4,5 @@ public enum RaportStatus {
     PENDING,
     CANCELED,
     FINISHED,
-    PREPARED
+    PREPARED_TO_EXECUTION
 }
