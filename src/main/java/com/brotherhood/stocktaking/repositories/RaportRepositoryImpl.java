@@ -8,6 +8,7 @@ import com.brotherhood.stocktaking.repositories.interfaces.RaportRepository;
 import com.brotherhood.stocktaking.repositories.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,6 +39,11 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
                 .setParameter("userId", userId)
                 .getResultList();
         return result.isEmpty() ? null : result;
+    }
+
+    @Override
+    public List getRaportOrders() {
+        return entityManager.createQuery("select raportOrder from RaportOrderEntity raportOrder").getResultList();
     }
 
     @Override
@@ -103,6 +109,7 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
     }
 
     @Override
+    @Transactional
     public boolean addOrder(CreateRaportOrderRequest request) {
         if (request.getUsersIds().size() == 0 || request.getRaportOwnerNick() == null) {
             return false;
@@ -126,6 +133,11 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
         raportOrder.setValueMin(request.getValueMin());
         raportOrder.setValueMax(request.getValueMax());
         entityManager.persist(raportOrder);
+        if (request.getUsersIds() != null) {
+            for (Integer userId : request.getUsersIds()) {
+                addRaportOrderUserEntity(new RaportOrderUserEntity().setUserId(userId).setRaportOrderId(raportOrder.getRaportOrderId()));
+            }
+        }
         return true;
     }
 
@@ -143,19 +155,6 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
     }
 
     @Override
-    public boolean addLocalizationsListForRaportOrder(Integer raportOrderId, List<Integer> localizationsIds) {
-        RaportOrderEntity raportOrder = getRaportOrder(raportOrderId);
-        if (raportOrder == null) {
-            return false;
-        }
-        for (Integer localizationId : localizationsIds) {
-            addRaportOrderLocalization(new RaportOrderLocalizationEntity(raportOrderId, localizationId));
-        }
-        entityManager.refresh(raportOrder);
-        return true;
-    }
-
-    @Override
     public void addRaportOrderItem(RaportOrderItemEntity raportOrderItemEntity) {
         entityManager.persist(raportOrderItemEntity);
     }
@@ -165,4 +164,20 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
         entityManager.persist(raportOrderLocalizationEntity);
     }
 
+    @Override
+    @Transactional
+    public void addRaportOrderUserEntity(RaportOrderUserEntity raportOrderUserEntity) {
+        entityManager.persist(raportOrderUserEntity);
+    }
+
+    @Override
+    public void removeRaportOrderUserEntitie(Integer raportOrderId) {
+        List raportOrderUserEntities = entityManager.createQuery("select raport from RaportOrderUserEntity raport "
+                + " where raport.raportOrderId=:raportOrderId").setParameter("raportOrderId", raportOrderId).getResultList();
+        if (raportOrderUserEntities.size() > 0) {
+            for (Object raportOrderUserEntity : raportOrderUserEntities) {
+                entityManager.remove(raportOrderUserEntity);
+            }
+        }
+    }
 }

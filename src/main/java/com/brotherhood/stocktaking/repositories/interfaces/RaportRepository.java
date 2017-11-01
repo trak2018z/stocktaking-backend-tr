@@ -11,6 +11,8 @@ public interface RaportRepository {
 
     List<RaportOrderEntity> getRaportOrders(Integer userId);
 
+    List getRaportOrders();
+
     RaportEntity getRaport(Integer raportId);
 
     RaportOrderEntity getRaportOrder(Integer raportOrderId);
@@ -27,9 +29,11 @@ public interface RaportRepository {
 
     boolean addItemsListForRaportOrder(Integer raportOrderId, List<Integer> itemsIds);
 
-    boolean addLocalizationsListForRaportOrder(Integer raportOrderId, List<Integer> localizationsIds);
-
     void addRaportOrderItem(RaportOrderItemEntity raportOrderEntity);
 
     void addRaportOrderLocalization(RaportOrderLocalizationEntity raportOrderLocalizationEntity);
+
+    void addRaportOrderUserEntity(RaportOrderUserEntity raportOrderUserEntity);
+
+    void removeRaportOrderUserEntitie(Integer raportOrderId);
 }

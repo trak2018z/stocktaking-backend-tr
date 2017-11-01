@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.RequestMethod;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -32,6 +33,7 @@ import java.util.List;
 @ComponentScan("com.brotherhood.stocktaking")
 @EnableSwagger2
 @Configuration
+@EnableScheduling
 public class StocktakingConfiguration {
     private static final String API_VERSION = "1.0";
     private static final String SWAGGER_TITLE = "Stocktaking API";

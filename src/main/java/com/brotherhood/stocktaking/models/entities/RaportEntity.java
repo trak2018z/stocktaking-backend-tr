@@ -18,14 +18,14 @@ import java.util.List;
 @Table(name = "Raport")
 public class RaportEntity {
     @Id
-    @Column(name = "raportId")
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer raportId;
 
     @Column
     private String url;
 
-    @Column(name = "status", length = 120)
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private RaportStatus status;
 

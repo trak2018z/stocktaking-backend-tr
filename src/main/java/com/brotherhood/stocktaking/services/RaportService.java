@@ -2,7 +2,6 @@ package com.brotherhood.stocktaking.services;
 
 import com.brotherhood.stocktaking.models.entities.RaportEntity;
 import com.brotherhood.stocktaking.models.entities.RaportOrderEntity;
-import com.brotherhood.stocktaking.models.entities.RaportStatus;
 import com.brotherhood.stocktaking.models.requests.CreateRaportOrderRequest;
 import com.brotherhood.stocktaking.models.requests.UpdateRaportRequest;
 import com.brotherhood.stocktaking.repositories.RaportRepositoryImpl;
@@ -31,6 +30,10 @@ public class RaportService {
 
     public List<RaportOrderEntity> getAllRaportsOrders(Integer userId) {
         return raportRepository.getRaportOrders(userId);
+    }
+
+    public List<RaportOrderEntity> getAllRaportsOrders() {
+        return raportRepository.getRaportOrders();
     }
 
     public boolean deleteRaport(Integer raportId) {

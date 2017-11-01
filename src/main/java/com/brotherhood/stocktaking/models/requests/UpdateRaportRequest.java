@@ -8,4 +8,10 @@ public class UpdateRaportRequest {
     private Integer raportId;
     private RaportStatus raportStatus;
     private String url;
+
+    public UpdateRaportRequest(Integer raportId, RaportStatus raportStatus, String url) {
+        this.raportId = raportId;
+        this.raportStatus = raportStatus;
+        this.url = url;
+    }
 }
