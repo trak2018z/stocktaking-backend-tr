@@ -15,17 +15,15 @@ import java.util.List;
 
 @Service
 public class RaportService {
-    private UserRepository userRepository;
     private RaportRepository raportRepository;
 
     @Autowired
-    public RaportService(UserRepositoryImpl userRepository, RaportRepositoryImpl raportRepository) {
-        this.userRepository = userRepository;
+    public RaportService(RaportRepositoryImpl raportRepository) {
         this.raportRepository = raportRepository;
     }
 
-    public List<RaportEntity> getAllRaports(Integer userId) {
-        return raportRepository.get(userId);
+    public List<RaportEntity> getAllRaports(Integer userId, int page) {
+        return raportRepository.get(userId, page);
     }
 
     public List<RaportOrderEntity> getAllRaportsOrders(Integer userId) {
@@ -52,7 +50,7 @@ public class RaportService {
         return raportRepository.add(null);
     }
 
-    public boolean addRaportOrder(CreateRaportOrderRequest orderRequest) {
-        return raportRepository.addOrder(orderRequest);
+    public boolean addRaportOrder(int userId, CreateRaportOrderRequest orderRequest) {
+        return raportRepository.addOrder(userId, orderRequest);
     }
 }

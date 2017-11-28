@@ -26,7 +26,6 @@ public class ProcessRaportsTask {
 
     @Scheduled(fixedRate = 10000)
     public void executeTask() {
-        System.out.println("Start generating RaportOrder!");
         for (RaportOrderEntity order : raportService.getAllRaportsOrders()) {
             System.out.println("generating order with id: " + order.getRaportOrderId());
             try {

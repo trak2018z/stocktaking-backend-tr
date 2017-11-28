@@ -25,6 +25,9 @@ public class RaportEntity {
     @Column
     private String url;
 
+    @Column
+    private String raportName;
+
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private RaportStatus status;

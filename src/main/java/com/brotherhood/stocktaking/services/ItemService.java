@@ -35,9 +35,8 @@ public class ItemService {
         this.itemTypeRepository = itemTypeRepository;
     }
 
-
-    public List<ItemEntity> get(Integer userId) {
-        return itemRepository.get(userId);
+    public List<ItemEntity> get(int page) {
+        return itemRepository.get(page);
     }
 
     public ItemEntity getItem(Integer id) {
@@ -57,7 +56,7 @@ public class ItemService {
         return false;
     }
 
-    public boolean update(ItemUpdateRequest request) {
+    public boolean update(int userFromToken, ItemUpdateRequest request) {
         ItemEntity item = itemRepository.getItem(request.getItemId());
         if (item == null) {
             return false;
@@ -68,8 +67,8 @@ public class ItemService {
                     .setDate(request.getDate())
                     .setValue(request.getValue())
                     .setCodeType(request.getCodeType())
+                    .setUser(userRepository.get(userFromToken))
                     .setCount(request.getCount())
-                    .setUser(userRepository.get(request.getUserId()))
                     .setLocalization(localizationRepository.get(request.getLocalizationName()))
                     .setName(request.getName())
                     .setItemType(itemTypeRepository.get(request.getItemTypeId()));

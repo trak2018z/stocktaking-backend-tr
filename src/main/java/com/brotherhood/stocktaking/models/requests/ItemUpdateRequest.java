@@ -17,7 +17,6 @@ public class ItemUpdateRequest {
     private Integer count;
     private Float value;
     private Date date;
-    private Integer userId;
     private String localizationName;
     private Integer itemTypeId;
     private CodeType codeType;

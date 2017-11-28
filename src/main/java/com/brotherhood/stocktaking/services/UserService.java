@@ -1,9 +1,9 @@
 package com.brotherhood.stocktaking.services;
 
 import com.brotherhood.stocktaking.models.entities.UserEntity;
-import com.brotherhood.stocktaking.models.requests.UserCreateRequest;
+import com.brotherhood.stocktaking.models.requests.LoginRequest;
+import com.brotherhood.stocktaking.models.requests.RegisterRequest;
 import com.brotherhood.stocktaking.models.requests.UserUpdateRequest;
-import com.brotherhood.stocktaking.models.responses.ResultResponse;
 import com.brotherhood.stocktaking.repositories.UserRepositoryImpl;
 import com.brotherhood.stocktaking.repositories.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +28,15 @@ public class UserService {
         return userRepository.get(userId);
     }
 
-    public boolean add(UserCreateRequest userCreateRequest) {
-        return userRepository.add(userCreateRequest);
+    public UserEntity get(LoginRequest loginRequest) {
+        return userRepository.get(loginRequest);
     }
 
-    public boolean update(UserUpdateRequest userUpdateRequest) {
-        return userRepository.update(userUpdateRequest);
+    public int add(RegisterRequest registerRequest) {
+        return userRepository.add(registerRequest);
+    }
+
+    public boolean update(int userId, UserUpdateRequest userUpdateRequest) {
+        return userRepository.update(userId, userUpdateRequest);
     }
 }

@@ -8,11 +8,11 @@ import java.util.List;
 
 @Getter
 public class CreateRaportOrderRequest {
-    private String raportOwnerNick;
     private Integer countMin;
     private Integer countMax;
     private Float valueMin;
     private Float valueMax;
+    private String name;
     private Date dateMin;
     private Date dateMax;
     private CodeType codeType;

@@ -7,10 +7,11 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class UserCreateRequest {
-    private String nick;
+public class RegisterRequest {
+    private String login;
     private String name;
     private String surname;
     private String email;
     private String groupName;
+    private String password;
 }

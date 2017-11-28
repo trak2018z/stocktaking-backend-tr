@@ -5,9 +5,7 @@ import com.brotherhood.stocktaking.models.entities.ItemEntity;
 import java.util.List;
 
 public interface ItemRepository {
-    List<ItemEntity> get();
-
-    List<ItemEntity> get(Integer userId);
+    List<ItemEntity> get(int page);
 
     ItemEntity getItem(Integer itemId);
 

@@ -1,25 +1,26 @@
 package com.brotherhood.stocktaking.repositories;
 
+import com.brotherhood.stocktaking.controllers.ItemController;
 import com.brotherhood.stocktaking.models.entities.ItemEntity;
 import com.brotherhood.stocktaking.models.entities.UserEntity;
 import com.brotherhood.stocktaking.repositories.interfaces.ItemRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.brotherhood.stocktaking.controllers.ItemController.PAGE_ITEMS_COUNT;
 
 @Repository
 @SuppressWarnings("unchecked")
 public class ItemRepositoryImpl extends AbstractRepository implements ItemRepository {
     @Override
-    public List<ItemEntity> get() {
-        return new ArrayList<ItemEntity>(entityManager.createQuery("select item from ItemEntity item").getResultList());
-    }
-
-    @Override
-    public List<ItemEntity> get(Integer userId) {
-        UserEntity userEntity = entityManager.find(UserEntity.class, userId);
-        return new ArrayList<>(userEntity.getItems());
+    public List<ItemEntity> get(int page) {
+        Query query = entityManager.createQuery("select item from ItemEntity item ");
+        query.setMaxResults(PAGE_ITEMS_COUNT);
+        query.setFirstResult(page * PAGE_ITEMS_COUNT);
+        return new ArrayList<ItemEntity>(query.getResultList());
     }
 
     @Override

@@ -7,7 +7,7 @@ import com.brotherhood.stocktaking.models.requests.UpdateRaportRequest;
 import java.util.List;
 
 public interface RaportRepository {
-    List<RaportEntity> get(Integer userId);
+    List<RaportEntity> get(Integer userId, Integer page);
 
     List<RaportOrderEntity> getRaportOrders(Integer userId);
 
@@ -25,7 +25,7 @@ public interface RaportRepository {
 
     boolean add(RaportEntity raportEntity);
 
-    boolean addOrder(CreateRaportOrderRequest orderRequest);
+    boolean addOrder(int userId, CreateRaportOrderRequest orderRequest);
 
     boolean addItemsListForRaportOrder(Integer raportOrderId, List<Integer> itemsIds);
 

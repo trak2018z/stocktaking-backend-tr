@@ -8,7 +8,6 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(chain = true)
 public class UserUpdateRequest {
-    private Integer userId;
     private String email;
     private String groupName;
 }

@@ -24,8 +24,9 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
     }
 
     @Override
-    public List<RaportEntity> get(Integer userId) {
-        List result = entityManager.createQuery("select raports from RaportEntity raports")
+    public List<RaportEntity> get(Integer userId, Integer page) {
+        List result = entityManager.createQuery("select raports from RaportEntity raports where raports.user.id=:userId")
+                .setParameter("userId", userId)
                 .getResultList();
         return result.isEmpty() ? null : result;
     }
@@ -110,12 +111,13 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
 
     @Override
     @Transactional
-    public boolean addOrder(CreateRaportOrderRequest request) {
-        if (request.getUsersIds().size() == 0 || request.getRaportOwnerNick() == null) {
+    public boolean addOrder(int userId, CreateRaportOrderRequest request) {
+        if (request.getUsersIds().size() == 0 || userId <= 0) {
             return false;
         }
-        UserEntity user = userRepository.get(request.getRaportOwnerNick());
+        UserEntity user = userRepository.get(userId);
         RaportEntity raport = new RaportEntity();
+        raport.setRaportName(request.getName());
         raport.setStatus(RaportStatus.PREPARED_TO_EXECUTION);
         raport.setUser(user);
         entityManager.persist(raport);
@@ -134,8 +136,8 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
         raportOrder.setValueMax(request.getValueMax());
         entityManager.persist(raportOrder);
         if (request.getUsersIds() != null) {
-            for (Integer userId : request.getUsersIds()) {
-                addRaportOrderUserEntity(new RaportOrderUserEntity().setUserId(userId).setRaportOrderId(raportOrder.getRaportOrderId()));
+            for (Integer tmp : request.getUsersIds()) {
+                addRaportOrderUserEntity(new RaportOrderUserEntity().setUserId(tmp).setRaportOrderId(raportOrder.getRaportOrderId()));
             }
         }
         return true;

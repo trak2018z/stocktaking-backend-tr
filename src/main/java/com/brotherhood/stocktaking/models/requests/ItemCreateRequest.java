@@ -15,7 +15,6 @@ public class ItemCreateRequest {
     private String description;
     private Date date;
     private CodeType codeType;
-    private Integer userId;
     private Integer localizationId;
     private Integer itemTypeId;
     private int count;

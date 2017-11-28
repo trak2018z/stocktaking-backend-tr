@@ -1,6 +1,7 @@
 package com.brotherhood.stocktaking.models.entities;
 
 import com.fasterxml.jackson.annotation.*;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
