@@ -11,7 +11,11 @@ public interface LocalizationRepository {
 
     List<LocalizationEntity> get(List<Integer> ids);
 
+    List get();
+
     boolean add(String roomName);
 
     boolean delete(String roomName);
+
+    List<LocalizationEntity> getPage(int page);
 }

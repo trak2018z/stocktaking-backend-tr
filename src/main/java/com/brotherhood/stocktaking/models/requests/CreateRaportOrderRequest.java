@@ -15,7 +15,7 @@ public class CreateRaportOrderRequest {
     private String name;
     private Date dateMin;
     private Date dateMax;
-    private CodeType codeType;
-    private List<Integer> localizationsIds;
-    private List<Integer> usersIds;
+    private String codeType;
+    private List<String> localizationsNames;
+    private List<String> usersNames;
 }

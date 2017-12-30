@@ -112,7 +112,7 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
     @Override
     @Transactional
     public boolean addOrder(int userId, CreateRaportOrderRequest request) {
-        if (request.getUsersIds().size() == 0 || userId <= 0) {
+        if (request.getUsersNames() != null && request.getUsersNames().size() == 0 || userId <= 0) {
             return false;
         }
         UserEntity user = userRepository.get(userId);
@@ -122,48 +122,38 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
         raport.setUser(user);
         entityManager.persist(raport);
 
+        StringBuilder usersNames = new StringBuilder();
+        if (request.getUsersNames() != null) {
+            for (String name : request.getUsersNames()) {
+                usersNames.append(name).append("|");
+            }
+        }
+        if (usersNames.length() > 1) {
+            usersNames = new StringBuilder(usersNames.substring(0, usersNames.length() - 1));
+        }
+
         RaportOrderEntity raportOrder = new RaportOrderEntity();
-        raportOrder.setUser(user);
-        raportOrder.setRaportEntity(raport);
-        raportOrder.setCountMin(request.getCountMin());
-        raportOrder.setCountMax(request.getCountMax());
+        raportOrder.setRaportOrderId(raport.getRaportId());
+        raportOrder.setUsersNamesJson(usersNames.toString());
+        raportOrder.setCodeType(CodeType.getByName(request.getCodeType()));
         raportOrder.setDateMin(request.getDateMin());
         raportOrder.setDateMax(request.getDateMax());
-        if (request.getLocalizationsIds() != null) {
-            raportOrder.setLocalizations(localizationRepository.get(request.getLocalizationsIds()));
+        if (request.getLocalizationsNames() != null && request.getLocalizationsNames().size() > 0) {
+            StringBuilder localizationsNames = new StringBuilder();
+            if (request.getLocalizationsNames() != null) {
+                for (String name : request.getLocalizationsNames()) {
+                    localizationsNames.append(name).append("|");
+                }
+            }
+            if (localizationsNames.length() > 1) {
+                localizationsNames = new StringBuilder(localizationsNames.substring(0, localizationsNames.length() - 1));
+            }
+            raportOrder.setLocalizationsJson(localizationsNames.toString());
         }
         raportOrder.setValueMin(request.getValueMin());
         raportOrder.setValueMax(request.getValueMax());
         entityManager.persist(raportOrder);
-        if (request.getUsersIds() != null) {
-            for (Integer tmp : request.getUsersIds()) {
-                addRaportOrderUserEntity(new RaportOrderUserEntity().setUserId(tmp).setRaportOrderId(raportOrder.getRaportOrderId()));
-            }
-        }
         return true;
-    }
-
-    @Override
-    public boolean addItemsListForRaportOrder(Integer raportOrderId, List<Integer> itemsIds) {
-        RaportOrderEntity raportOrder = getRaportOrder(raportOrderId);
-        if (raportOrder == null) {
-            return false;
-        }
-        for (Integer itemId : itemsIds) {
-            addRaportOrderItem(new RaportOrderItemEntity(raportOrderId, itemId));
-        }
-        entityManager.refresh(raportOrder);
-        return true;
-    }
-
-    @Override
-    public void addRaportOrderItem(RaportOrderItemEntity raportOrderItemEntity) {
-        entityManager.persist(raportOrderItemEntity);
-    }
-
-    @Override
-    public void addRaportOrderLocalization(RaportOrderLocalizationEntity raportOrderLocalizationEntity) {
-        entityManager.persist(raportOrderLocalizationEntity);
     }
 
     @Override
@@ -173,7 +163,7 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
     }
 
     @Override
-    public void removeRaportOrderUserEntitie(Integer raportOrderId) {
+    public void removeRaportOrderUserEntity(Integer raportOrderId) {
         List raportOrderUserEntities = entityManager.createQuery("select raport from RaportOrderUserEntity raport "
                 + " where raport.raportOrderId=:raportOrderId").setParameter("raportOrderId", raportOrderId).getResultList();
         if (raportOrderUserEntities.size() > 0) {

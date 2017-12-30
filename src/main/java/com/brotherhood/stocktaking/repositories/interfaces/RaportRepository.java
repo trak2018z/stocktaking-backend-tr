@@ -27,13 +27,7 @@ public interface RaportRepository {
 
     boolean addOrder(int userId, CreateRaportOrderRequest orderRequest);
 
-    boolean addItemsListForRaportOrder(Integer raportOrderId, List<Integer> itemsIds);
-
-    void addRaportOrderItem(RaportOrderItemEntity raportOrderEntity);
-
-    void addRaportOrderLocalization(RaportOrderLocalizationEntity raportOrderLocalizationEntity);
-
     void addRaportOrderUserEntity(RaportOrderUserEntity raportOrderUserEntity);
 
-    void removeRaportOrderUserEntitie(Integer raportOrderId);
+    void removeRaportOrderUserEntity(Integer raportOrderId);
 }

@@ -48,8 +48,8 @@ public class ItemEntity {
     @JoinColumn(name = "userId")
     private UserEntity user;
 
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonManagedReference
-    @ManyToOne
     @JoinColumn(name = "localizationId")
     private LocalizationEntity localization;
 
@@ -57,10 +57,4 @@ public class ItemEntity {
     @ManyToOne
     @JoinColumn(name = "idType")
     private ItemTypeEntity itemType;
-
-    @JsonBackReference
-    @ManyToMany(mappedBy="items")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    private List<RaportOrderEntity> raportOrderEntities;
 }

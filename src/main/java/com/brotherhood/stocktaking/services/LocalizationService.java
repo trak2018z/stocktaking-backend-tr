@@ -6,6 +6,8 @@ import com.brotherhood.stocktaking.repositories.interfaces.LocalizationRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LocalizationService {
     private LocalizationRepository localizationRepository;
@@ -19,11 +21,19 @@ public class LocalizationService {
         return localizationRepository.get(localizationId);
     }
 
+    public List<LocalizationEntity> getPage(int page) {
+        return localizationRepository.getPage(page);
+    }
+
     public boolean add(String roomName) {
         return localizationRepository.add(roomName);
     }
 
     public boolean delete(String roomName) {
         return localizationRepository.delete(roomName);
+    }
+
+    public List get() {
+        return localizationRepository.get();
     }
 }

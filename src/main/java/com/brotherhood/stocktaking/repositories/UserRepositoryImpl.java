@@ -53,10 +53,13 @@ public class UserRepositoryImpl extends AbstractRepository implements UserReposi
     public int add(RegisterRequest registerRequest) {
         UserGroupEntity userGroup = userGroupRepository.get(registerRequest.getGroupName());
         if (userGroup == null) {
+            System.out.println("#1");
             return -1;
         }
         UserEntity userEntity = get(registerRequest.getLogin());
         if (userEntity != null) {
+
+            System.out.println("#2");
             return -1;
         }
         userEntity = new UserEntity()

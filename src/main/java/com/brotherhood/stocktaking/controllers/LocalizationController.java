@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("localization")
+@RequestMapping(path = "localization")
 @Api(tags = "localization")
 @CrossOrigin
 public class LocalizationController {
@@ -21,13 +21,24 @@ public class LocalizationController {
         this.securityService = securityService;
     }
 
-    @RequestMapping(path = "/", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.GET)
+    ResultResponse getLocalizations(@RequestParam String token, @RequestParam int page) {
+        return new ResultResponse(securityService, token, localizationService.getPage(page));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "all")
+    ResultResponse getAllLocalizations(@RequestParam String token) {
+        return new ResultResponse(securityService, token, localizationService.get());
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
     ResultResponse createLocalization(@RequestParam String token, @RequestParam String roomName) {
         return new ResultResponse(securityService, token, localizationService.add(roomName));
     }
 
-    @RequestMapping(path = "/", method = RequestMethod.DELETE)
+    @RequestMapping(method = RequestMethod.DELETE)
     ResultResponse deleteLocalization(@RequestParam String token, @RequestParam String roomName) {
+        System.out.println("DELETE LOCALIZATION: " + roomName);
         return new ResultResponse(securityService, token, localizationService.delete(roomName));
     }
 }

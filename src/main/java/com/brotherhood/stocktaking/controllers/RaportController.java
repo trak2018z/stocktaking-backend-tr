@@ -1,7 +1,5 @@
 package com.brotherhood.stocktaking.controllers;
 
-import com.brotherhood.stocktaking.models.entities.RaportEntity;
-import com.brotherhood.stocktaking.models.entities.RaportOrderEntity;
 import com.brotherhood.stocktaking.models.requests.CreateRaportOrderRequest;
 import com.brotherhood.stocktaking.models.responses.ResultResponse;
 import com.brotherhood.stocktaking.services.RaportService;
@@ -9,8 +7,6 @@ import com.brotherhood.stocktaking.services.SecurityService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "raports")
@@ -30,6 +26,11 @@ public class RaportController {
     public ResultResponse createRaportOrder(@RequestParam String token, @RequestBody CreateRaportOrderRequest createRaportOrderRequest) {
         return new ResultResponse(securityService, token,
                 raportService.addRaportOrder(securityService.isTokenValid(token), createRaportOrderRequest));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, path = "order")
+    public ResultResponse deleteRaport(@RequestParam String token, @RequestParam Integer raportId) {
+        return new ResultResponse(securityService, token, raportService.deleteRaport(raportId));
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "order")

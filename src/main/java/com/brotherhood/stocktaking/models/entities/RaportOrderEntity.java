@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,7 +19,6 @@ import java.util.List;
 @Table(name = "RaportOrder")
 public class RaportOrderEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Integer raportOrderId;
 
@@ -41,36 +41,16 @@ public class RaportOrderEntity {
     private Date dateMax;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private CodeType codeType;
 
-    @ManyToOne
-    @JsonManagedReference
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    @JoinColumn(name = "userId")
-    private UserEntity user;
+    @Column(name = "usersNames")
+    private String usersNamesJson;
+
+    @Column(name = "localizations")
+    private String localizationsJson;
 
     @OneToOne(fetch=FetchType.LAZY, mappedBy = "raportOrderId")
     @JsonBackReference
     private RaportEntity raportEntity;
-
-    @ManyToMany
-    @JsonManagedReference
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    @JoinTable(
-            name="RaportOrderItem",
-            joinColumns=@JoinColumn(name="raportOrderId", referencedColumnName="raportOrderId"),
-            inverseJoinColumns=@JoinColumn(name="itemId", referencedColumnName="id"))
-    private List<ItemEntity> items;
-
-    @ManyToMany
-    @JsonManagedReference
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    @JoinTable(
-            name="RaportOrderLocalization",
-            joinColumns=@JoinColumn(name="raportOrderId", referencedColumnName="raportOrderId"),
-            inverseJoinColumns=@JoinColumn(name="localizationId", referencedColumnName="id"))
-    private List<LocalizationEntity> localizations;
 }

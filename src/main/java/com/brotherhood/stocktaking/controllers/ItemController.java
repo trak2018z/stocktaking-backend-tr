@@ -16,7 +16,7 @@ import java.util.List;
 @Api(tags = "item")
 @CrossOrigin
 public class ItemController {
-    public static final int PAGE_ITEMS_COUNT = 2;
+    public static final int PAGE_ITEMS_COUNT = 7;
 
     private ItemService itemService;
     private LocalizationService localizationService;
@@ -37,6 +37,7 @@ public class ItemController {
 
     @RequestMapping(method = RequestMethod.GET)
     ResultResponse getItems(@RequestParam String token, @RequestParam int page) {
+        System.out.println("getting items!");
         return new ResultResponse(securityService, token, itemService.get(page));
     }
 
