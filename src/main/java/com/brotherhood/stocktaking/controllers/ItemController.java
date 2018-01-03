@@ -5,8 +5,11 @@ import com.brotherhood.stocktaking.models.requests.ItemCreateRequest;
 import com.brotherhood.stocktaking.models.requests.ItemUpdateRequest;
 import com.brotherhood.stocktaking.models.responses.ResultResponse;
 import com.brotherhood.stocktaking.services.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,10 +50,10 @@ public class ItemController {
                 .setCodeType(item.getCodeType())
                 .setCount(item.getCount())
                 .setDate(item.getDate())
-                .setUser(userService.get(securityService.isTokenValid(token)))
+                .setUser(userService.get(item.getOwnerName()))
                 .setDescription(item.getDescription())
-                .setLocalization(localizationService.get(item.getLocalizationId()))
-                .setItemType(itemTypeService.get(item.getItemTypeId()))
+                .setLocalization(localizationService.get(item.getLocalizationName()))
+                .setItemType(itemTypeService.get(item.getItemTypeName()))
                 .setName(item.getName())
                 .setValue(item.getValue());
         itemService.add(itemEntity);
@@ -59,7 +62,11 @@ public class ItemController {
 
 
     @RequestMapping(method = RequestMethod.PATCH)
-    ResultResponse updateItem(@RequestParam String token, @RequestBody ItemUpdateRequest updateRequest) {
+    @Transactional
+    ResultResponse updateItem(@RequestParam String token, @RequestBody ItemUpdateRequest updateRequest) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+
+        System.out.println(mapper.writeValueAsString(updateRequest));
         return new ResultResponse(securityService, token, itemService.update(securityService.isTokenValid(token), updateRequest));
     }
 

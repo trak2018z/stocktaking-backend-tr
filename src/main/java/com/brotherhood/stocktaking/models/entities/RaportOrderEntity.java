@@ -1,6 +1,6 @@
 package com.brotherhood.stocktaking.models.entities;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,8 +8,6 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -19,7 +17,7 @@ import java.util.List;
 @Table(name = "RaportOrder")
 public class RaportOrderEntity {
     @Id
-    @Column
+    @Column(name = "raportOrderId")
     private Integer raportOrderId;
 
     @Column
@@ -49,8 +47,4 @@ public class RaportOrderEntity {
 
     @Column(name = "localizations")
     private String localizationsJson;
-
-    @OneToOne(fetch=FetchType.LAZY, mappedBy = "raportOrderId")
-    @JsonBackReference
-    private RaportEntity raportEntity;
 }

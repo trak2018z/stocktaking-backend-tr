@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Query;
 import java.util.List;
+
+import static com.brotherhood.stocktaking.controllers.ItemController.PAGE_ITEMS_COUNT;
 
 @Repository
 public class RaportRepositoryImpl extends AbstractRepository implements RaportRepository {
@@ -24,10 +27,13 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
     }
 
     @Override
+    @Transactional
     public List<RaportEntity> get(Integer userId, Integer page) {
-        List result = entityManager.createQuery("select raports from RaportEntity raports where raports.user.id=:userId")
-                .setParameter("userId", userId)
-                .getResultList();
+        Query query = entityManager.createQuery("select raports from RaportEntity raports where raports.user.id=:userId");
+        query.setMaxResults(PAGE_ITEMS_COUNT);
+        query.setParameter("userId", userId);
+        query.setFirstResult(page * PAGE_ITEMS_COUNT);
+        List result = query.getResultList();
         return result.isEmpty() ? null : result;
     }
 
@@ -69,6 +75,7 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
     }
 
     @Override
+    @Transactional
     public boolean updateRaportStatus(UpdateRaportRequest request) {
         RaportEntity raport = entityManager.find(RaportEntity.class, request.getRaportId());
         if (raport == null) {
@@ -82,7 +89,7 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
                 if (request.getUrl() == null) {
                     return false;
                 }
-                deleteRaportOrder(raport.getRaportOrderId().getRaportOrderId());
+                deleteRaportOrder(raport.getRaportId());
             }
             return true;
         }
@@ -153,6 +160,7 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
         raportOrder.setValueMin(request.getValueMin());
         raportOrder.setValueMax(request.getValueMax());
         entityManager.persist(raportOrder);
+        entityManager.merge(raport);
         return true;
     }
 
@@ -163,6 +171,7 @@ public class RaportRepositoryImpl extends AbstractRepository implements RaportRe
     }
 
     @Override
+    @Transactional
     public void removeRaportOrderUserEntity(Integer raportOrderId) {
         List raportOrderUserEntities = entityManager.createQuery("select raport from RaportOrderUserEntity raport "
                 + " where raport.raportOrderId=:raportOrderId").setParameter("raportOrderId", raportOrderId).getResultList();

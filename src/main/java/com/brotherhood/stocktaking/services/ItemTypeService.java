@@ -19,6 +19,10 @@ public class ItemTypeService {
         return itemTypeRepository.get(itemTypeId);
     }
 
+    public ItemTypeEntity get(String itemTypeName) {
+        return itemTypeRepository.get(itemTypeName);
+    }
+
     public boolean add(String type) {
         return itemTypeRepository.add(type);
     }

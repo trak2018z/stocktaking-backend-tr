@@ -56,6 +56,7 @@ public class ItemService {
         return false;
     }
 
+
     public boolean update(int userFromToken, ItemUpdateRequest request) {
         ItemEntity item = itemRepository.getItem(request.getItemId());
         if (item == null) {
@@ -71,7 +72,7 @@ public class ItemService {
                     .setCount(request.getCount())
                     .setLocalization(localizationRepository.get(request.getLocalizationName()))
                     .setName(request.getName())
-                    .setItemType(itemTypeRepository.get(request.getItemTypeId()));
+                    .setItemType(itemTypeRepository.get(request.getItemTypeName()));
             return itemRepository.update(item);
         } catch (DataIntegrityViolationException e) {
             return false;

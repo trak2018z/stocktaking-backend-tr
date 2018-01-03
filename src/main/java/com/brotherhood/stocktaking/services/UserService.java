@@ -24,6 +24,10 @@ public class UserService {
         return userRepository.getAll();
     }
 
+    public UserEntity get(String login) {
+        return userRepository.get(login);
+    }
+
     public UserEntity get(Integer userId) {
         return userRepository.get(userId);
     }

@@ -5,6 +5,7 @@ import com.brotherhood.stocktaking.models.entities.ItemEntity;
 import com.brotherhood.stocktaking.models.entities.UserEntity;
 import com.brotherhood.stocktaking.repositories.interfaces.ItemRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class ItemRepositoryImpl extends AbstractRepository implements ItemReposi
     }
 
     @Override
+    @Transactional
     public ItemEntity getItem(Integer itemId) {
         return entityManager.find(ItemEntity.class, itemId);
     }

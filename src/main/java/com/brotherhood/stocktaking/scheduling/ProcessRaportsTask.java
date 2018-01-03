@@ -63,8 +63,9 @@ public class ProcessRaportsTask {
         }
     }
 
-    private void generatePdf(RaportOrderEntity raportOrder) throws FileNotFoundException, DocumentException {
-        RaportEntity raportEntity = raportOrder.getRaportEntity();
+    @Transactional
+    protected void generatePdf(RaportOrderEntity raportOrder) throws FileNotFoundException, DocumentException {
+        RaportEntity raportEntity = raportRepository.getRaport(raportOrder.getRaportOrderId());
         Document document = new Document();
         String filePath = RAPORTS_DIR + System.currentTimeMillis() + ".pdf";
         raportService.updateRaport(new UpdateRaportRequest(raportEntity.getRaportId(), RaportStatus.PENDING, null));

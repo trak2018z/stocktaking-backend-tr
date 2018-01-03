@@ -51,6 +51,7 @@ public class StocktakingConfiguration {
         return DataSourceBuilder
                 .create()
                 .username("root")
+                .password("Brotherhoodwgp4$")
                 .url("jdbc:mysql://localhost:3306/webapp")
                 .driverClassName(JDBC_DRIVER_CLASS_NAME)
                 .build();

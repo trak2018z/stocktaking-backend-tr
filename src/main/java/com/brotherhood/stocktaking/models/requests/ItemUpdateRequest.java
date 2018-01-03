@@ -18,6 +18,6 @@ public class ItemUpdateRequest {
     private Float value;
     private Date date;
     private String localizationName;
-    private Integer itemTypeId;
+    private String itemTypeName;
     private CodeType codeType;
 }

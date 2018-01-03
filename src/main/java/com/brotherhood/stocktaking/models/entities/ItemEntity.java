@@ -43,8 +43,6 @@ public class ItemEntity {
 
     @JsonManagedReference
     @ManyToOne
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
     @JoinColumn(name = "userId")
     private UserEntity user;
 
@@ -54,7 +52,7 @@ public class ItemEntity {
     private LocalizationEntity localization;
 
     @JsonManagedReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idType")
     private ItemTypeEntity itemType;
 }

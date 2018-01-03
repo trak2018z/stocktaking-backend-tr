@@ -38,12 +38,4 @@ public class RaportEntity {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private UserEntity user;
-
-    @Setter(AccessLevel.NONE)
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "raportId")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    @JsonManagedReference
-    private RaportOrderEntity raportOrderId;
 }

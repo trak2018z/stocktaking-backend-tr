@@ -36,4 +36,8 @@ public class LocalizationService {
     public List get() {
         return localizationRepository.get();
     }
+
+    public LocalizationEntity get(String roomName) {
+        return localizationRepository.get(roomName);
+    }
 }
