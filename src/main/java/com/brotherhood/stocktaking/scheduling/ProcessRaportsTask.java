@@ -17,13 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.*;
+import java.nio.file.attribute.GroupPrincipal;
+import java.nio.file.attribute.PosixFileAttributeView;
+import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.ArrayList;
 
 @Component
 @Transactional
 public class ProcessRaportsTask {
-    private final static String RAPORTS_DIR = "raports/";
+    private final static String RAPORTS_DIR = "/var/www/bth.nazwa.pl/public_html/raports/";
     private RaportService raportService;
     private RaportRepository raportRepository;
     private LocalizationRepository localizationRepository;
@@ -151,6 +156,20 @@ public class ProcessRaportsTask {
         chunk.append("\n\n\nTotal sum of items: " + sum.toString());
         document.add(chunk);
         document.close();
+
+        Path p = Paths.get(filePath);
+        String groupName = "www-data";
+        UserPrincipalLookupService lookupService = FileSystems.getDefault()
+                .getUserPrincipalLookupService();
+        GroupPrincipal group = null;
+        try {
+            group = lookupService.lookupPrincipalByGroupName(groupName);
+            Files.getFileAttributeView(p, PosixFileAttributeView.class,
+                    LinkOption.NOFOLLOW_LINKS).setGroup(group);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         raportService.updateRaport(new UpdateRaportRequest(raportEntity.getRaportId(), RaportStatus.FINISHED, filePath));
         System.out.println("now");
     }
